@@ -11,7 +11,7 @@ class Node:
 
 def calculate(stock_price, strike_price, time_to_maturity, volatility, risk_free_rate, depth=15):
     # this is lazy and should get fixed but its fine for now
-    # this whole this is slow bc nodes can share children so it grops at the rate of 2^x 
+    # this whole this is slow bc nodes can not share children so it grows at the rate of 2^x 
     # i could also make a way to include upperbounds on the input formatter but this is the only value that needs it
     # therefore imma add it here and in future when this gets updated to be more efficient the problem will be solved
     if depth > 20:
