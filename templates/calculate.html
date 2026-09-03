@@ -1,0 +1,60 @@
+{% macro add_input_for(val, alternate_val, use_alternate, index) %}
+<h5>{{ val.replace("_", " ")|title }}</h5>
+{% if use_alternate %}
+<input autocomplete="off" name="{{ alternate_val }}" value="{{ saved_values.get(alternate_val)[index] | default("", True) }}">
+{% else %}
+<input autocomplete="off" name="{{ val }}" value="{{ saved_values.get(val) | default("", True) }}">
+{% endif %}
+{% endmacro %}
+
+
+
+{% extends "index.html" %}
+
+{% block title %}
+    calculate
+{% endblock %}
+
+{% block main %}
+    
+    <form method="POST" action="/Calculate">
+        <h1 class="calc_title">{{saved_values["version"]}} : {{ load_data[saved_values["version"]][saved_values["equation"]]["display_name"] }}</h1>
+        <div class="io_container">
+        <div class="input">
+            <input type="hidden" name="viz" value="{{ saved_values["viz"] }}">
+            <input type="hidden" name="equation" value="{{ saved_values["equation"] }}">
+            <input type="hidden" name="version" value="{{ saved_values["version"] }}">
+            {% for value in load_data[saved_values["version"]][saved_values["equation"]]["params"] %}
+            {% if value in load_data[saved_values["version"]][saved_values["equation"]]["available_viz_types"][saved_values["viz"]] %}
+            {% for updated_value in load_data[saved_values["version"]][saved_values["equation"]]["available_viz_types"][saved_values["viz"]][value] %}
+                {{ add_input_for(updated_value, value, True, loop.index0) }}
+            {% endfor %}
+            {% else %}
+                {{ add_input_for(value, None, False, 0) }}
+            {% endif %}
+            {% endfor %}
+        
+
+            <div class="submit_button">
+                <button type="submit">Submit</button>
+            </div>
+        </div>
+    </form>
+
+    {% if saved_values["viz"] == "calculator" %}
+    <div class="output">
+        <!-- bad practice but not doesnt work -->
+        {% if output != None %}
+            <h3>call value: ${{output["call"]}}</h3>
+            <h3>put value: ${{output["put"]}}</h3>
+        {% endif %}
+    </div>
+    {% elif saved_values["viz"] == "heatmap" %}
+    <div class="output">
+        <img src="data:image/png;base64, {{output["call"]}}" alt=''>
+        <img src="data:image/png;base64, {{output["put"]}}" alt=''>
+    </div>
+    </div>
+    {% endif %}
+
+{% endblock %}

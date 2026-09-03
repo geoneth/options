@@ -1,0 +1,56 @@
+{% macro load_navbar_section_for(viz) %}
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+        {{ viz }}
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+        {% for key, value in load_data.items() %}
+        <li><h3>{{ key }}</h3></li>
+        {% for val in value %}
+        {% if viz in load_data[key][val]["available_viz_types"] %}
+        <li><a class="dropdown-item" href="{{ load_data[key][val]["route_to"] }}?version={{ key }}&equation={{ val }}&viz={{ viz }}">{{ load_data[key][val]["display_name"] }}</a></li>
+        {% endif %}
+        {% endfor %}
+        <li><hr class="dropdown-divider"></li>
+        {% endfor %}
+    </ul>
+</li>
+{% endmacro %}
+
+
+
+<!DOCTYPE html>
+
+<head lang="en">
+
+    <title>Options Pricer</title>
+
+    <link rel="stylesheet" href="{{ url_for("static", filename="style.css") }}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    
+
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Home</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    {% for viz in viz_types %}
+                        {{ load_navbar_section_for(viz) }}
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+    
+    {% block main %}{% endblock %}
+</body>
+
+

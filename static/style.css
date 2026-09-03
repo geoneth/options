@@ -1,0 +1,22 @@
+.submit_button {
+    clear: both;
+    margin-top: 10px;
+}
+
+.io_container {
+    display: flex;
+    gap: 20px;
+}
+
+.input {
+    flex: 1;
+    margin-left: 10px;
+}
+
+.output {
+    flex: 4;
+}
+
+.calc_title {
+    margin: 10px;
+}
