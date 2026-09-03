@@ -10,10 +10,10 @@ It does not calculate implied volatility which is the main use case in industry,
 An option gives one the right to buy (in the case of a call option) or sell (in the case of a put option) an asset at, or sometimes before, a given date.
 
 #### European
-A European option is one where the purchaser can only exercise (use) the option on the expiry date.
+A European option is one where the purchaser can only exercise (use) the option on the expiry date and its value is calculated using the asset price on the exercise date.
 
 #### American
-Unlike a European option an American option allows the purchaser to exercise the option at or before expiry date.
+Unlike a European option an American option allows the purchaser to exercise the option at or before expiry date, but its still calculated using the asset price on the exercise date.
 
 #### Asian
 Much like a European option an Asian option is one where the purchaser can only exercise the option on the expiry date.
@@ -42,7 +42,6 @@ For instance, if I wanted to add a new pricing method it would be as simple as a
 Alternatively, if I wanted to add a new visualization method I could do it by updating the input and output formatters and adding the new option to the config file.
 
 ## Issues
-This project took me quite a while and I improved quite a bit over its development meaning some issues arose that I was only able to spot recently as I worked to finish it out.
 
 ### Inefficient Binomial code
 In a Binomial simulation the path of the stock price increasing and then decreasing should have the same result as the price decreasing and then increasing. As such the node should be the same.
