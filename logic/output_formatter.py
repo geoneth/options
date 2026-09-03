@@ -48,16 +48,8 @@ def format_output(data):
     # currently formatted as [0][0] being bottom left and [0][n] being top left
     # needs to be formatted so [0][0] on the new list is top left and [0][n] is top right
     # pretty much we take the last index of each list and it becomes its own list then second to last and so on
-    return_list = []
-    length = len(list(data[0]))
-    current_index = length
-    for _ in range(length):
-        temp = []
-        current_index -= 1
-        for i in range(length):
-            temp.append(np.round(data[i][current_index], decimals=2))
-        return_list.append(temp)
-    return return_list
+    # this solution is only valid if stock price is kept as horizontal and volatility is vertical
+    return np.round(np.flip(np.array(data), axis=0), decimals=2).tolist()
 
 
 def make_heatmap(name, bottom_labels, side_labels, data):
